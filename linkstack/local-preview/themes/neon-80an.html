@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>seikouverse — synthwave 83</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --void:#0a0205;
+      --void-2:#1a0510;
+      --neon:#e91e35;
+      --neon-glow:#ff3850;
+      --crimson:#7a0e1f;
+      --bone:#f0e6d2;
+      --grain:rgba(255,255,255,0.02);
+    }
+    body{
+      font-family:'Inter',sans-serif;
+      background:radial-gradient(ellipse at top, #2a0815 0%, var(--void) 60%);
+      color:var(--bone);
+      min-height:100vh;
+      padding:2rem 1rem;
+      position:relative;
+      overflow-x:hidden;
+    }
+    body::before{
+      content:'';
+      position:fixed;
+      inset:0;
+      background:repeating-linear-gradient(0deg, transparent 0, transparent 3px, rgba(233,30,53,0.03) 3px, rgba(233,30,53,0.03) 4px);
+      pointer-events:none;
+      z-index:1;
+      animation:scanline 8s linear infinite;
+    }
+    @keyframes scanline{
+      from{background-position:0 0}
+      to{background-position:0 100px}
+    }
+    body::after{
+      content:'';
+      position:fixed;
+      inset:0;
+      background-image:
+        radial-gradient(circle at 20% 30%, rgba(233,30,53,0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(233,30,53,0.08) 0%, transparent 50%);
+      pointer-events:none;
+      z-index:0;
+    }
+    .vhs-noise{
+      position:fixed;
+      inset:0;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+      pointer-events:none;
+      z-index:2;
+      opacity:0.5;
+    }
+    .container{
+      max-width:520px;
+      margin:0 auto;
+      position:relative;
+      z-index:3;
+    }
+    .vhs-tag{
+      font-family:'Inter',sans-serif;
+      font-size:0.65rem;
+      letter-spacing:0.4em;
+      color:var(--neon);
+      text-transform:uppercase;
+      margin-bottom:1rem;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      font-weight:500;
+    }
+    .vhs-tag::before{
+      content:'● REC';
+      color:var(--neon);
+      animation:rec 1.5s ease-in-out infinite;
+    }
+    @keyframes rec{
+      0%,49%{opacity:1}
+      50%,100%{opacity:0.3}
+    }
+    .profile{
+      text-align:center;
+      margin-bottom:3rem;
+      padding:2rem 1rem;
+      position:relative;
+    }
+    .profile::before{
+      content:'';
+      position:absolute;
+      top:0;
+      left:50%;
+      width:120px;
+      height:1px;
+      background:linear-gradient(90deg, transparent, var(--neon), transparent);
+      transform:translateX(-50%);
+    }
+    .avatar{
+      width:140px;
+      height:140px;
+      margin:0 auto 1.5rem;
+      border-radius:50%;
+      background:radial-gradient(circle at 30% 30%, var(--crimson), var(--void));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-family:'Cormorant Garamond',serif;
+      font-size:4rem;
+      color:var(--bone);
+      position:relative;
+      box-shadow:
+        0 0 30px rgba(233,30,53,0.4),
+        0 0 60px rgba(233,30,53,0.2),
+        inset 0 0 30px rgba(233,30,53,0.3);
+      border:2px solid var(--neon);
+      animation:pulse-glow 3s ease-in-out infinite;
+    }
+    @keyframes pulse-glow{
+      0%,100%{box-shadow:0 0 30px rgba(233,30,53,0.4), 0 0 60px rgba(233,30,53,0.2), inset 0 0 30px rgba(233,30,53,0.3)}
+      50%{box-shadow:0 0 50px rgba(233,30,53,0.6), 0 0 100px rgba(233,30,53,0.3), inset 0 0 40px rgba(233,30,53,0.4)}
+    }
+    .name{
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(2.5rem, 7vw, 3.75rem);
+      font-weight:700;
+      letter-spacing:0.02em;
+      line-height:0.9;
+      margin-bottom:0.5rem;
+      color:var(--neon-glow);
+      text-shadow:
+        0 0 10px rgba(233,30,53,0.8),
+        0 0 20px rgba(233,30,53,0.5),
+        0 0 40px rgba(233,30,53,0.3);
+      animation:flicker 4s linear infinite;
+    }
+    @keyframes flicker{
+      0%,100%{opacity:1}
+      96%,98%{opacity:0.85}
+      97%{opacity:1}
+    }
+    .subtitle{
+      font-family:'Cormorant Garamond',serif;
+      font-style:italic;
+      font-size:1.1rem;
+      letter-spacing:0.3em;
+      color:#888;
+      text-transform:uppercase;
+      margin-bottom:1rem;
+    }
+    .bio{
+      font-family:'Cormorant Garamond',serif;
+      font-size:1.1rem;
+      line-height:1.5;
+      color:#aaa;
+      max-width:380px;
+      margin:0 auto;
+      font-style:italic;
+    }
+    .section-label{
+      font-family:'Inter',sans-serif;
+      font-size:0.7rem;
+      letter-spacing:0.4em;
+      color:var(--neon);
+      margin:2rem 0 1rem;
+      text-align:center;
+      text-transform:uppercase;
+      font-weight:500;
+    }
+    .section-label::before, .section-label::after{
+      content:'━━';
+      margin:0 0.75rem;
+      color:rgba(233,30,53,0.4);
+    }
+    .links{
+      display:flex;
+      flex-direction:column;
+      gap:0.875rem;
+    }
+    .link-btn{
+      display:flex;
+      align-items:center;
+      gap:1rem;
+      padding:1rem 1.25rem;
+      background:rgba(26,5,16,0.6);
+      backdrop-filter:blur(10px);
+      border:1px solid rgba(233,30,53,0.3);
+      text-decoration:none;
+      color:var(--bone);
+      font-family:'Inter',sans-serif;
+      font-size:0.95rem;
+      font-weight:500;
+      letter-spacing:0.02em;
+      transition:all .3s ease;
+      position:relative;
+      overflow:hidden;
+    }
+    .link-btn::before{
+      content:'';
+      position:absolute;
+      inset:0;
+      background:linear-gradient(135deg, transparent 0%, rgba(233,30,53,0.1) 50%, transparent 100%);
+      opacity:0;
+      transition:opacity .3s;
+    }
+    .link-btn::after{
+      content:'';
+      position:absolute;
+      bottom:0;
+      left:0;
+      width:0;
+      height:1px;
+      background:var(--neon);
+      transition:width .4s;
+      box-shadow:0 0 10px var(--neon);
+    }
+    .link-btn:hover{
+      border-color:var(--neon);
+      transform:translateY(-2px);
+      box-shadow:0 4px 20px rgba(233,30,53,0.3);
+    }
+    .link-btn:hover::before{opacity:1}
+    .link-btn:hover::after{width:100%}
+    .link-icon{
+      width:38px;
+      height:38px;
+      border:1px solid var(--neon);
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex-shrink:0;
+      font-family:'Cormorant Garamond',serif;
+      color:var(--neon-glow);
+      font-size:1.1rem;
+      background:rgba(233,30,53,0.05);
+    }
+    .link-title{flex:1}
+    .link-arrow{
+      color:var(--neon);
+      font-size:1.2rem;
+      transform:translateX(0);
+      transition:transform .3s;
+    }
+    .link-btn:hover .link-arrow{transform:translateX(4px)}
+    .footer{
+      text-align:center;
+      margin-top:3rem;
+      padding-top:1.5rem;
+      border-top:1px dashed rgba(233,30,53,0.3);
+      font-family:'Cormorant Garamond',serif;
+      font-style:italic;
+      font-size:0.85rem;
+      letter-spacing:0.15em;
+      color:#666;
+    }
+    .timestamp{
+      position:fixed;
+      bottom:1rem;
+      right:1rem;
+      font-family:'Inter',monospace;
+      font-size:0.65rem;
+      color:var(--neon);
+      letter-spacing:0.1em;
+      opacity:0.7;
+      z-index:5;
+    }
+  </style>
+</head>
+<body>
+  <div class="vhs-noise"></div>
+
+  <main class="container">
+    <div class="vhs-tag">
+      <span></span>
+      <span>SP / 1983 ★ NIGHT TAPE</span>
+    </div>
+
+    <header class="profile">
+      <div class="avatar">S</div>
+      <h1 class="name">SEIKOUVERSE</h1>
+      <p class="subtitle">— a synthwave ritual —</p>
+      <p class="bio">Open Jasa Web Bisnis / UMKM dan Web Joki.</p>
+    </header>
+
+    <div class="section-label">my links</div>
+    <div class="links">
+      <a href="#" class="link-btn">
+        <span class="link-icon">W</span>
+        <span class="link-title">Web untuk Bisnis dan UMKM</span>
+        <span class="link-arrow">→</span>
+      </a>
+      <a href="#" class="link-btn">
+        <span class="link-icon">P</span>
+        <span class="link-title">Portofolio</span>
+        <span class="link-arrow">→</span>
+      </a>
+    </div>
+
+    <div class="section-label">socials</div>
+    <div class="links">
+      <a href="#" class="link-btn">
+        <span class="link-icon">I</span>
+        <span class="link-title">Instagram</span>
+        <span class="link-arrow">→</span>
+      </a>
+      <a href="#" class="link-btn">
+        <span class="link-icon">X</span>
+        <span class="link-title">Akun Joki X</span>
+        <span class="link-arrow">→</span>
+      </a>
+      <a href="#" class="link-btn">
+        <span class="link-icon">T</span>
+        <span class="link-title">Testimoni</span>
+        <span class="link-arrow">→</span>
+      </a>
+    </div>
+
+    <div class="section-label">contact</div>
+    <div class="links">
+      <a href="#" class="link-btn">
+        <span class="link-icon">W</span>
+        <span class="link-title">WhatsApp Business</span>
+        <span class="link-arrow">→</span>
+      </a>
+    </div>
+
+    <div class="footer">— END OF TAPE —</div>
+  </main>
+
+  <div class="timestamp">SP-LP / 03:18:24</div>
+</body>
+</html>

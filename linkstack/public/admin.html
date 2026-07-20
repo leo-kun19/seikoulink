@@ -1,0 +1,98 @@
+  <!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel - SeikouLink</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="/static/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/admin.css?v=8">
+</head>
+<body>
+  <nav class="admin-nav">
+    <a href="/dashboard" class="admin-brand">SeikouLink <span class="admin-badge">ADMIN</span></a>
+    <button id="logoutBtn" class="admin-logout">Logout</button>
+  </nav>
+
+  <main class="admin-main">
+    <section class="admin-stats">
+      <div class="stat-card">
+        <span class="stat-value" id="totalUsers">0</span>
+        <span class="stat-label">Users</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value" id="totalLinks">0</span>
+        <span class="stat-label">Links</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value" id="totalClicks">0</span>
+        <span class="stat-label">Clicks</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value" id="totalViews">0</span>
+        <span class="stat-label">Views</span>
+      </div>
+    </section>
+
+    <section class="admin-panel">
+      <div class="admin-tabs">
+        <button class="tab-btn active" data-tab="users">Semua User</button>
+        <button class="tab-btn" data-tab="audit">Audit Log</button>
+        <button class="tab-btn" data-tab="blocked">Blocked Links</button>
+        <button class="tab-btn" data-tab="security">2FA Setup</button>
+      </div>
+
+      <div class="tab-content" id="tab-users">
+        <div class="users-table-wrap">
+          <table class="users-table" id="usersTable">
+            <thead>
+              <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Links</th>
+                <th>Clicks</th>
+                <th>Daftar</th>
+                <th>Status</th>
+                <th>Verifikasi</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="usersBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="tab-content" id="tab-audit" hidden>
+        <div id="auditList"></div>
+        <div class="audit-pagination" id="auditPagination"></div>
+      </div>
+
+      <div class="tab-content" id="tab-blocked" hidden>
+        <div id="blockedList"></div>
+        <div class="audit-pagination" id="blockedPagination"></div>
+      </div>
+
+      <div class="tab-content" id="tab-security" hidden>
+        <div class="security-section">
+          <h3>Two-Factor Authentication (2FA)</h3>
+          <p class="security-desc" id="2faStatus">Loading...</p>
+          <div id="2faSetupArea"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Detect bfcache restore (back button after logout) — force reload to re-check auth
+    window.addEventListener('pageshow', function(e) {
+      if (e.persisted) {
+        window.location.reload();
+      }
+    });
+  </script>
+  <script src="/static/js/admin.js?v=8" defer></script>
+</body>
+</html>

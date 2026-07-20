@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - SeikouLink</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="/static/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/dashboard.css?v=17">
+</head>
+<body>
+  <nav class="dash-nav">
+    <a href="/" class="dash-brand">SeikouLink</a>
+    <div class="dash-nav-right">
+      <span class="verify-badge verify-badge-ok" id="verifyBadge" hidden>
+        <i data-lucide="badge-check"></i>
+        <span>Verified</span>
+      </span>
+      <span class="verify-badge verify-badge-warn" id="unverifyBadge" hidden>
+        <i data-lucide="badge-alert"></i>
+        <span>Not Verified</span>
+      </span>
+      <button id="qrBtn" class="dash-preview-btn">
+        <i data-lucide="qr-code"></i>
+        <span>QR Code</span>
+      </button>
+      <a href="#" id="previewLink" class="dash-preview-btn" target="_blank">
+        <i data-lucide="external-link"></i>
+        <span>Lihat Halaman</span>
+      </a>
+      <button id="logoutBtn" class="dash-logout">
+        <i data-lucide="log-out"></i>
+      </button>
+    </div>
+  </nav>
+
+  <main class="dash-main">
+    <!-- Email verification alert -->
+    <div class="verify-alert" id="verifyAlert" hidden>
+      <div class="verify-alert-icon">⚠️</div>
+      <div class="verify-alert-content">
+        <strong>Email belum diverifikasi!</strong>
+        <p>Cek inbox email kamu dan klik link verifikasi. Kamu punya waktu 3 hari untuk verifikasi, jika belum terverifikasi akun akan di-ban/hapus otomatis.</p>
+      </div>
+      <button class="verify-alert-btn" id="resendVerifyBtn">Kirim Ulang Email</button>
+    </div>
+
+    <div class="dash-grid">
+      <section class="dash-panel panel-links">
+        <div class="panel-header">
+          <h2>Link Kamu</h2>
+          <div class="panel-actions">
+            <button id="addDividerBtn" class="btn-add btn-add-divider">
+              <i data-lucide="minus"></i> Divider
+            </button>
+            <button id="addLinkBtn" class="btn-add">
+              <i data-lucide="plus"></i> Tambah Link
+            </button>
+          </div>
+        </div>
+        <div id="linksList" class="links-list"></div>
+      </section>
+
+      <aside class="dash-sidebar">
+        <section class="dash-panel panel-stats">
+          <h3>Statistik</h3>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <span class="stat-value" id="statViews">0</span>
+              <span class="stat-label">Views</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-value" id="statClicks">0</span>
+              <span class="stat-label">Clicks</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-value" id="statLinks">0</span>
+              <span class="stat-label">Links</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-value" id="statToday">0</span>
+              <span class="stat-label">Hari Ini</span>
+            </div>
+          </div>
+          <div class="country-stats" id="countryStats" hidden>
+            <h4>Top Negara Visitor</h4>
+            <div id="countryList"></div>
+          </div>
+        </section>
+
+        <section class="dash-panel panel-profile">
+          <h3>Profil</h3>
+          <form id="profileForm">
+            <div class="form-group">
+              <label for="usernameInput">Username</label>
+              <div class="username-row">
+                <span class="username-prefix">/</span>
+                <input type="text" id="usernameInput" maxlength="30" pattern="[a-z0-9_-]{3,30}">
+                <button type="button" id="changeUsernameBtn" class="btn-small">Ubah</button>
+              </div>
+              <span class="form-hint">1x ubah per 30 hari</span>
+            </div>
+            <div class="form-group">
+              <label for="displayName">Nama Tampilan</label>
+              <input type="text" id="displayName" name="display_name">
+            </div>
+            <div class="form-group">
+              <label for="bio">Bio</label>
+              <textarea id="bio" name="bio" rows="3" maxlength="160" placeholder="Deskripsi singkat..."></textarea>
+            </div>
+            <div class="form-group">
+              <label>Theme Preset</label>
+              <div class="theme-grid" id="themeGrid"></div>
+            </div>
+            <div class="form-group">
+              <label for="accentColor">Warna Aksen</label>
+              <div class="color-picker-row">
+                <input type="color" id="accentColor" name="accent_color" value="#ff6b35">
+                <span class="color-value" id="accentValue">#ff6b35</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="bgColor">Warna Background</label>
+              <div class="color-picker-row">
+                <input type="color" id="bgColor" name="bg_color" value="#fffbf0">
+                <span class="color-value" id="bgValue">#fffbf0</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Banner (1500x500px)</label>
+              <div class="banner-upload">
+                <div class="banner-preview" id="bannerPreview"></div>
+                <input type="file" id="bannerInput" accept="image/*" hidden>
+                <div class="banner-actions">
+                  <button type="button" id="bannerBtn" class="btn-small">Upload</button>
+                  <button type="button" id="bannerRemove" class="btn-small btn-small-danger" hidden>Hapus</button>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Avatar</label>
+              <div class="avatar-upload">
+                <div class="avatar-preview" id="avatarPreview"></div>
+                <input type="file" id="avatarInput" accept="image/*" hidden>
+                <button type="button" id="avatarBtn" class="btn-small">Upload</button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>OG Image (preview saat di-share)</label>
+              <div class="avatar-upload">
+                <div class="avatar-preview og-preview" id="ogPreview"></div>
+                <input type="file" id="ogInput" accept="image/*" hidden>
+                <button type="button" id="ogBtn" class="btn-small">Upload</button>
+              </div>
+              <span class="form-hint">Gambar 1200x630px untuk WhatsApp/Twitter preview</span>
+            </div>
+            <button type="submit" class="btn-save">Simpan Profil</button>
+          </form>
+        </section>
+      </aside>
+    </div>
+  </main>
+
+  <div class="modal-overlay" id="linkModal" hidden>
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="modalTitle">Tambah Link</h3>
+        <button class="modal-close" id="modalClose"><i data-lucide="x"></i></button>
+      </div>
+      <form id="linkForm">
+        <input type="hidden" id="linkId">
+        <div class="form-group">
+          <label for="linkTitle">Judul</label>
+          <input type="text" id="linkTitle" required placeholder="Instagram, Toko, Portfolio...">
+        </div>
+        <div class="form-group">
+          <label for="linkUrl">URL</label>
+          <input type="text" id="linkUrl" placeholder="t.me/username, instagram.com/toko, https://...">
+          <span class="form-hint">Otomatis ditambahkan https:// kalau belum ada</span>
+        </div>
+        <div class="form-group">
+          <label for="linkIcon">Icon</label>
+          <div class="icon-select-wrapper">
+            <select id="linkIcon" size="1">
+              <option value="auto">Auto-detect dari URL</option>
+              <optgroup label="Sosial Media">
+                <option value="instagram">Instagram</option>
+                <option value="whatsapp">WhatsApp</option>
+                <option value="whatsapp-business">WhatsApp Business</option>
+                <option value="telegram">Telegram</option>
+                <option value="x">X / Twitter</option>
+                <option value="tiktok">TikTok</option>
+                <option value="youtube">YouTube</option>
+                <option value="facebook">Facebook</option>
+                <option value="discord">Discord</option>
+              </optgroup>
+              <optgroup label="Lainnya">
+                <option value="store">Toko</option>
+                <option value="donate">Donasi</option>
+                <option value="globe">Website</option>
+                <option value="link">Link</option>
+              </optgroup>
+            </select>
+          </div>
+          <span class="form-hint">Biarkan "Auto-detect" untuk icon otomatis</span>
+        </div>
+        <div class="form-group">
+          <label for="linkPassword">Password (opsional)</label>
+          <input type="text" id="linkPassword" placeholder="Kosongkan jika tidak perlu password">
+          <span class="form-hint" id="passwordHint">Visitor harus masukkan password untuk akses link ini</span>
+        </div>
+        <div class="form-group">
+          <label class="checkbox-label">
+            <input type="checkbox" id="linkSocial">
+            <span>Tampilkan sebagai Social Icon (kecil, di bawah bio)</span>
+          </label>
+        </div>
+        <div class="form-group">
+          <label for="linkScheduleStart">Jadwal Aktif (opsional)</label>
+          <div class="schedule-row">
+            <input type="datetime-local" id="linkScheduleStart" placeholder="Mulai">
+            <span>s/d</span>
+            <input type="datetime-local" id="linkScheduleEnd" placeholder="Selesai">
+          </div>
+          <span class="form-hint">Kosongkan jika link selalu aktif</span>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn-cancel" id="modalCancelBtn">Batal</button>
+          <button type="submit" class="btn-submit">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="qrModal" hidden>
+    <div class="modal-card qr-modal-card">
+      <div class="modal-header">
+        <h3>QR Code Halaman Kamu</h3>
+        <button class="modal-close" id="qrModalClose"><i data-lucide="x"></i></button>
+      </div>
+      <div class="qr-card" id="qrCard">
+        <div class="qr-card-inner">
+          <div class="qr-corner-top">
+            <div class="qr-brand">SEIKOULINK</div>
+            <div class="qr-name" id="qrCardName"></div>
+          </div>
+          <div class="qr-image-wrap">
+            <img id="qrImage" alt="QR Code">
+          </div>
+          <div class="qr-corner-bottom">
+            <div class="qr-url" id="qrCardUrl"></div>
+            <div class="qr-tag">SCAN ME</div>
+          </div>
+        </div>
+      </div>
+      <div class="qr-actions">
+        <button id="qrDownload" class="btn-primary">
+          <i data-lucide="download"></i>
+          <span>Download Card</span>
+        </button>
+        <button id="qrCopyUrl" class="btn-secondary">
+          <i data-lucide="copy"></i>
+          <span>Copy Link</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirm Modal -->
+  <div class="modal-overlay" id="confirmModal" hidden>
+    <div class="modal-card confirm-modal-card">
+      <div class="modal-header">
+        <h3 id="confirmTitle">Konfirmasi</h3>
+        <button class="modal-close" id="confirmClose"><i data-lucide="x"></i></button>
+      </div>
+      <div class="confirm-body">
+        <p id="confirmMessage"></p>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn-cancel" id="confirmCancel">Batal</button>
+        <button type="button" class="btn-submit" id="confirmOk">Ya, Lanjutkan</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Detect bfcache restore (back button after logout) — force reload to re-check auth
+    window.addEventListener('pageshow', function(e) {
+      if (e.persisted) {
+        window.location.reload();
+      }
+    });
+  </script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="/static/js/themes.js?v=2" defer></script>
+  <script src="/static/js/icons.js?v=3" defer></script>
+  <script src="/static/js/dashboard.js?v=14" defer></script>
+</body>
+</html>

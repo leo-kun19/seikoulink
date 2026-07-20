@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>seikouverse — sakura theme</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=Zen+Maru+Gothic:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --pink:#ff6b9d;
+      --pink-dark:#d4467a;
+      --paper:#fff5ee;
+      --ink:#1a1a1a;
+      --soft:#fce4ec;
+    }
+    body{
+      font-family:'Zen Maru Gothic',sans-serif;
+      background:var(--paper);
+      color:var(--ink);
+      min-height:100vh;
+      padding:2rem 1rem;
+      position:relative;
+      overflow-x:hidden;
+    }
+    body::before{
+      content:'';
+      position:fixed;
+      inset:0;
+      background-image:radial-gradient(circle, rgba(0,0,0,0.08) 1px, transparent 1px);
+      background-size:8px 8px;
+      pointer-events:none;
+      z-index:0;
+    }
+    .speed-lines{
+      position:fixed;
+      top:0;
+      left:0;
+      width:100%;
+      height:120px;
+      background:repeating-linear-gradient(90deg, transparent 0, transparent 4px, rgba(255,107,157,0.12) 4px, rgba(255,107,157,0.12) 5px);
+      pointer-events:none;
+      z-index:0;
+    }
+    .sakura{
+      position:fixed;
+      pointer-events:none;
+      animation:fall 8s linear infinite;
+      font-size:1rem;
+      z-index:0;
+    }
+    .sakura:nth-child(1){left:10%;animation-delay:0s;animation-duration:9s}
+    .sakura:nth-child(2){left:30%;animation-delay:2s;animation-duration:11s}
+    .sakura:nth-child(3){left:50%;animation-delay:4s;animation-duration:8s}
+    .sakura:nth-child(4){left:70%;animation-delay:1s;animation-duration:10s}
+    .sakura:nth-child(5){left:90%;animation-delay:3s;animation-duration:12s}
+    @keyframes fall{
+      from{transform:translateY(-50px) rotate(0deg);opacity:0}
+      10%{opacity:1}
+      90%{opacity:1}
+      to{transform:translateY(120vh) rotate(720deg);opacity:0}
+    }
+    .container{
+      max-width:520px;
+      margin:0 auto;
+      position:relative;
+      z-index:1;
+    }
+    .badge{
+      display:inline-block;
+      font-family:'Bowlby One',sans-serif;
+      background:var(--ink);
+      color:var(--pink);
+      padding:0.25rem 0.75rem;
+      font-size:0.7rem;
+      letter-spacing:0.15em;
+      text-transform:uppercase;
+      transform:rotate(-3deg);
+      margin-bottom:1rem;
+      box-shadow:3px 3px 0 var(--pink);
+    }
+    .profile{
+      text-align:center;
+      margin-bottom:2.5rem;
+      position:relative;
+    }
+    .avatar{
+      width:120px;
+      height:120px;
+      margin:0 auto 1rem;
+      border:4px solid var(--ink);
+      border-radius:50%;
+      background:var(--pink);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-family:'Bowlby One',sans-serif;
+      font-size:3rem;
+      color:#fff;
+      box-shadow:6px 6px 0 var(--ink);
+      position:relative;
+    }
+    .avatar::after{
+      content:'';
+      position:absolute;
+      top:-8px;
+      right:-8px;
+      width:32px;
+      height:32px;
+      background:var(--pink);
+      border:3px solid var(--ink);
+      border-radius:50%;
+      animation:pop 2s ease-in-out infinite;
+    }
+    @keyframes pop{
+      0%,100%{transform:scale(1)}
+      50%{transform:scale(1.2)}
+    }
+    .name{
+      font-family:'Bowlby One',sans-serif;
+      font-size:2.5rem;
+      letter-spacing:-0.02em;
+      line-height:1;
+      margin-bottom:0.5rem;
+      text-shadow:3px 3px 0 var(--pink);
+    }
+    .name-jp{
+      font-family:'Zen Maru Gothic',sans-serif;
+      font-size:0.9rem;
+      color:var(--pink-dark);
+      letter-spacing:0.2em;
+      margin-bottom:0.75rem;
+      font-weight:700;
+    }
+    .bio{
+      font-size:0.95rem;
+      line-height:1.6;
+      color:#444;
+      max-width:380px;
+      margin:0 auto;
+      padding:0.75rem 1rem;
+      background:var(--soft);
+      border:2px solid var(--ink);
+      border-radius:20px 20px 20px 4px;
+      position:relative;
+    }
+    .bio::before{
+      content:'';
+      position:absolute;
+      bottom:-8px;
+      left:24px;
+      width:0;
+      height:0;
+      border-left:8px solid transparent;
+      border-right:8px solid transparent;
+      border-top:10px solid var(--ink);
+    }
+    .links{
+      display:flex;
+      flex-direction:column;
+      gap:0.875rem;
+    }
+    .section-label{
+      font-family:'Bowlby One',sans-serif;
+      font-size:0.75rem;
+      letter-spacing:0.2em;
+      text-align:center;
+      color:var(--pink-dark);
+      margin:1rem 0 0.5rem;
+      position:relative;
+    }
+    .section-label::before,.section-label::after{
+      content:'★';
+      margin:0 0.5rem;
+      color:var(--pink);
+    }
+    .link-btn{
+      display:flex;
+      align-items:center;
+      gap:1rem;
+      padding:1rem 1.25rem;
+      background:#fff;
+      border:3px solid var(--ink);
+      border-radius:24px 8px 24px 8px;
+      text-decoration:none;
+      color:var(--ink);
+      font-weight:700;
+      font-size:0.95rem;
+      box-shadow:5px 5px 0 var(--ink);
+      transition:transform .15s,box-shadow .15s,background .15s;
+      position:relative;
+      overflow:hidden;
+    }
+    .link-btn::before{
+      content:'';
+      position:absolute;
+      top:0;
+      left:-100%;
+      width:100%;
+      height:100%;
+      background:linear-gradient(90deg, transparent, rgba(255,107,157,0.2), transparent);
+      transition:left .5s;
+    }
+    .link-btn:hover{
+      transform:translate(-3px,-3px);
+      box-shadow:8px 8px 0 var(--pink);
+      background:var(--soft);
+    }
+    .link-btn:hover::before{left:100%}
+    .link-icon{
+      width:36px;
+      height:36px;
+      background:var(--pink);
+      border:2px solid var(--ink);
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex-shrink:0;
+      font-family:'Bowlby One',sans-serif;
+      color:#fff;
+      font-size:1rem;
+    }
+    .link-title{flex:1}
+    .link-arrow{
+      font-family:'Bowlby One',sans-serif;
+      color:var(--pink-dark);
+      font-size:1.2rem;
+    }
+    .footer{
+      text-align:center;
+      margin-top:2.5rem;
+      font-family:'Bowlby One',sans-serif;
+      font-size:0.7rem;
+      letter-spacing:0.2em;
+      color:var(--ink);
+      opacity:0.5;
+    }
+    .stamp{
+      position:fixed;
+      top:2rem;
+      right:2rem;
+      width:80px;
+      height:80px;
+      border:3px solid var(--pink-dark);
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-family:'Bowlby One',sans-serif;
+      color:var(--pink-dark);
+      font-size:0.65rem;
+      text-align:center;
+      letter-spacing:0.1em;
+      transform:rotate(-15deg);
+      opacity:0.7;
+      z-index:0;
+    }
+    @media(max-width:480px){
+      .stamp{width:60px;height:60px;font-size:0.55rem;top:1rem;right:1rem}
+      .name{font-size:1.8rem}
+    }
+  </style>
+</head>
+<body>
+  <div class="speed-lines"></div>
+  <div class="sakura" style="top:-50px">🌸</div>
+  <div class="sakura" style="top:-50px">🌸</div>
+  <div class="sakura" style="top:-50px">🌸</div>
+  <div class="sakura" style="top:-50px">🌸</div>
+  <div class="sakura" style="top:-50px">🌸</div>
+
+  <div class="stamp">CHAPTER<br>01<br>HERO</div>
+
+  <main class="container">
+    <header class="profile">
+      <div class="badge">★ Main Character ★</div>
+      <div class="avatar">S</div>
+      <h1 class="name">Seikouverse</h1>
+      <p class="name-jp">セイコウ ・ ベルス</p>
+      <div class="bio">Open Jasa Web Bisnis / UMKM dan Web Joki ✨</div>
+    </header>
+
+    <div class="section-label">My Links</div>
+
+    <div class="links">
+      <a href="#" class="link-btn">
+        <span class="link-icon">W</span>
+        <span class="link-title">Web untuk Bisnis dan UMKM</span>
+        <span class="link-arrow">→</span>
+      </a>
+      <a href="#" class="link-btn">
+        <span class="link-icon">P</span>
+        <span class="link-title">Portofolio</span>
+        <span class="link-arrow">→</span>
+      </a>
+      <a href="#" class="link-btn">
+        <span class="link-icon">I</span>
+        <span class="link-title">Instagram</span>
+        <span class="link-arrow">→</span>
+      </a>
+      <a href="#" class="link-btn">
+        <span class="link-icon">X</span>
+        <span class="link-title">Akun Joki X</span>
+        <span class="link-arrow">→</span>
+      </a>
+      <a href="#" class="link-btn">
+        <span class="link-icon">T</span>
+        <span class="link-title">Testimoni</span>
+        <span class="link-arrow">→</span>
+      </a>
+    </div>
+
+    <div class="section-label">Contact</div>
+
+    <div class="links">
+      <a href="#" class="link-btn">
+        <span class="link-icon">W</span>
+        <span class="link-title">WhatsApp Business</span>
+        <span class="link-arrow">→</span>
+      </a>
+    </div>
+
+    <div class="footer">— つづく — <br>Powered by SeikouLink</div>
+  </main>
+</body>
+</html>

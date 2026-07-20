@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>seikouverse — pixel quest theme</title>
+  <link href="https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;image-rendering:pixelated}
+    :root{
+      --grass:#7cb342;
+      --grass-dark:#558b2f;
+      --dirt:#8b4513;
+      --dirt-dark:#5d2e0a;
+      --stone:#7e7e7e;
+      --stone-dark:#494949;
+      --sky:#5dade2;
+      --gold:#ffd700;
+      --xp:#a8e063;
+      --text:#ffffff;
+      --text-shadow:#3f3f3f;
+    }
+    body{
+      font-family:'VT323',monospace;
+      background:linear-gradient(180deg, #87ceeb 0%, #5dade2 50%, #4a90c2 100%);
+      color:var(--text);
+      min-height:100vh;
+      padding:2rem 1rem;
+      position:relative;
+      overflow-x:hidden;
+    }
+    body::before{
+      content:'';
+      position:fixed;
+      bottom:0;
+      left:0;
+      right:0;
+      height:200px;
+      background:
+        repeating-linear-gradient(0deg, transparent 0, transparent 32px, rgba(0,0,0,0.05) 32px, rgba(0,0,0,0.05) 64px),
+        repeating-linear-gradient(90deg, transparent 0, transparent 32px, rgba(0,0,0,0.05) 32px, rgba(0,0,0,0.05) 64px),
+        linear-gradient(180deg, var(--grass) 0%, var(--grass-dark) 20%, var(--dirt) 25%, var(--dirt-dark) 100%);
+      z-index:0;
+      pointer-events:none;
+    }
+    .clouds{
+      position:fixed;
+      top:0;
+      left:0;
+      right:0;
+      height:100px;
+      pointer-events:none;
+      z-index:0;
+    }
+    .cloud{
+      position:absolute;
+      background:#fff;
+      width:80px;
+      height:32px;
+      box-shadow:
+        16px -16px 0 #fff,
+        32px -16px 0 #fff,
+        48px 0 0 #fff,
+        16px 16px 0 #fff;
+      opacity:0.9;
+      animation:drift 60s linear infinite;
+    }
+    .cloud:nth-child(1){top:20px;left:10%;animation-delay:0s}
+    .cloud:nth-child(2){top:50px;left:60%;animation-delay:-30s}
+    @keyframes drift{
+      from{transform:translateX(-150px)}
+      to{transform:translateX(calc(100vw + 150px))}
+    }
+    .container{
+      max-width:480px;
+      margin:0 auto;
+      position:relative;
+      z-index:2;
+    }
+    .achievement{
+      background:linear-gradient(180deg, #4a4a4a 0%, #2a2a2a 100%);
+      border:2px solid #1a1a1a;
+      padding:0.75rem 1rem;
+      display:flex;
+      align-items:center;
+      gap:0.75rem;
+      margin-bottom:1.5rem;
+      animation:slideIn 0.6s ease-out;
+      box-shadow:0 4px 0 #1a1a1a;
+    }
+    @keyframes slideIn{
+      from{transform:translateY(-30px);opacity:0}
+      to{transform:translateY(0);opacity:1}
+    }
+    .achievement-icon{
+      width:32px;
+      height:32px;
+      background:var(--gold);
+      border:2px solid #1a1a1a;
+      flex-shrink:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-family:'Press Start 2P',monospace;
+      font-size:0.7rem;
+      color:#000;
+    }
+    .achievement-text{
+      font-family:'Press Start 2P',monospace;
+      font-size:0.55rem;
+      line-height:1.6;
+      letter-spacing:0.05em;
+    }
+    .achievement-text small{
+      color:var(--gold);
+      display:block;
+      font-size:0.45rem;
+      margin-bottom:0.25rem;
+    }
+    .profile{
+      background:rgba(0,0,0,0.7);
+      border:3px solid #1a1a1a;
+      padding:1.5rem;
+      text-align:center;
+      margin-bottom:1.5rem;
+      box-shadow:0 6px 0 #1a1a1a;
+    }
+    .avatar{
+      width:80px;
+      height:80px;
+      margin:0 auto 1rem;
+      background:#fdbcb4;
+      border:3px solid #1a1a1a;
+      position:relative;
+      box-shadow:
+        inset -4px -4px 0 rgba(0,0,0,0.3),
+        inset 4px 4px 0 rgba(255,255,255,0.15);
+    }
+    .avatar::before{
+      content:'';
+      position:absolute;
+      top:16px;
+      left:16px;
+      right:16px;
+      height:8px;
+      background:#000;
+      box-shadow:0 16px 0 #000;
+    }
+    .avatar::after{
+      content:'';
+      position:absolute;
+      top:24px;
+      left:24px;
+      right:24px;
+      height:8px;
+      background:#fdbcb4;
+    }
+    .name{
+      font-family:'Press Start 2P',monospace;
+      font-size:1rem;
+      letter-spacing:0.05em;
+      margin-bottom:0.5rem;
+      text-shadow:2px 2px 0 var(--text-shadow);
+    }
+    .level{
+      font-family:'VT323',monospace;
+      font-size:1.1rem;
+      color:var(--xp);
+      margin-bottom:1rem;
+      letter-spacing:0.05em;
+    }
+    .xp-bar{
+      height:12px;
+      background:#1a1a1a;
+      border:2px solid #1a1a1a;
+      margin-bottom:1rem;
+      position:relative;
+      overflow:hidden;
+    }
+    .xp-fill{
+      height:100%;
+      width:67%;
+      background:linear-gradient(90deg, var(--xp) 0%, #6dca3a 100%);
+      box-shadow:inset 0 -3px 0 rgba(0,0,0,0.3);
+    }
+    .bio{
+      font-size:1.1rem;
+      line-height:1.4;
+      color:#e0e0e0;
+      letter-spacing:0.02em;
+    }
+    .links{
+      display:flex;
+      flex-direction:column;
+      gap:0.5rem;
+    }
+    .section-label{
+      font-family:'Press Start 2P',monospace;
+      font-size:0.6rem;
+      letter-spacing:0.1em;
+      color:#fff;
+      margin:1rem 0 0.25rem;
+      text-shadow:2px 2px 0 var(--text-shadow);
+      text-transform:uppercase;
+    }
+    .link-btn{
+      display:flex;
+      align-items:center;
+      gap:1rem;
+      padding:0.875rem 1rem;
+      background:linear-gradient(180deg, var(--stone) 0%, var(--stone-dark) 100%);
+      border:3px solid #1a1a1a;
+      text-decoration:none;
+      color:#fff;
+      font-family:'VT323',monospace;
+      font-size:1.2rem;
+      letter-spacing:0.03em;
+      box-shadow:
+        0 4px 0 #1a1a1a,
+        inset 2px 2px 0 rgba(255,255,255,0.2),
+        inset -2px -2px 0 rgba(0,0,0,0.3);
+      transition:transform .1s,box-shadow .1s;
+      position:relative;
+    }
+    .link-btn:hover{
+      transform:translateY(2px);
+      box-shadow:
+        0 2px 0 #1a1a1a,
+        inset 2px 2px 0 rgba(255,255,255,0.2),
+        inset -2px -2px 0 rgba(0,0,0,0.3);
+      background:linear-gradient(180deg, #8e8e8e 0%, #5a5a5a 100%);
+    }
+    .link-btn:active{
+      transform:translateY(4px);
+      box-shadow:
+        inset 2px 2px 0 rgba(0,0,0,0.3),
+        inset -2px -2px 0 rgba(255,255,255,0.1);
+    }
+    .link-icon{
+      width:32px;
+      height:32px;
+      background:var(--gold);
+      border:2px solid #1a1a1a;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex-shrink:0;
+      font-family:'Press Start 2P',monospace;
+      font-size:0.6rem;
+      color:#000;
+      box-shadow:
+        inset 1px 1px 0 rgba(255,255,255,0.4),
+        inset -1px -1px 0 rgba(0,0,0,0.3);
+    }
+    .link-title{flex:1;text-shadow:1px 1px 0 #000}
+    .link-arrow{
+      font-family:'Press Start 2P',monospace;
+      font-size:0.7rem;
+      color:#fff;
+    }
+    .footer{
+      text-align:center;
+      margin-top:2rem;
+      font-family:'Press Start 2P',monospace;
+      font-size:0.55rem;
+      letter-spacing:0.1em;
+      color:#fff;
+      text-shadow:2px 2px 0 var(--text-shadow);
+    }
+    .heart-bar{
+      display:flex;
+      justify-content:center;
+      gap:2px;
+      margin-bottom:1rem;
+    }
+    .heart{
+      width:14px;
+      height:14px;
+      background:#dc2626;
+      clip-path:polygon(50% 0%, 0% 38%, 0% 70%, 50% 100%, 100% 70%, 100% 38%);
+      position:relative;
+    }
+    .heart.empty{background:#1a1a1a;opacity:0.5}
+  </style>
+</head>
+<body>
+  <div class="clouds">
+    <div class="cloud"></div>
+    <div class="cloud"></div>
+  </div>
+
+  <main class="container">
+    <div class="achievement">
+      <div class="achievement-icon">★</div>
+      <div class="achievement-text">
+        <small>Pencapaian Diraih!</small>
+        Profil dibuka oleh visitor
+      </div>
+    </div>
+
+    <div class="profile">
+      <div class="avatar"></div>
+      <h1 class="name">SEIKOUVERSE</h1>
+      <div class="level">▸ Level 99 ◂ Web Master</div>
+      <div class="heart-bar">
+        <div class="heart"></div><div class="heart"></div><div class="heart"></div>
+        <div class="heart"></div><div class="heart"></div><div class="heart"></div>
+        <div class="heart"></div><div class="heart"></div><div class="heart empty"></div>
+      </div>
+      <div class="xp-bar"><div class="xp-fill"></div></div>
+      <p class="bio">Open Jasa Web Bisnis / UMKM dan Web Joki</p>
+    </div>
+
+    <div class="section-label">▸ Inventory</div>
+    <div class="links">
+      <a href="#" class="link-btn">
+        <span class="link-icon">W</span>
+        <span class="link-title">Web untuk Bisnis dan UMKM</span>
+        <span class="link-arrow">▶</span>
+      </a>
+      <a href="#" class="link-btn">
+        <span class="link-icon">P</span>
+        <span class="link-title">Portofolio</span>
+        <span class="link-arrow">▶</span>
+      </a>
+      <a href="#" class="link-btn">
+        <span class="link-icon">I</span>
+        <span class="link-title">Instagram</span>
+        <span class="link-arrow">▶</span>
+      </a>
+      <a href="#" class="link-btn">
+        <span class="link-icon">X</span>
+        <span class="link-title">Akun Joki X</span>
+        <span class="link-arrow">▶</span>
+      </a>
+      <a href="#" class="link-btn">
+        <span class="link-icon">T</span>
+        <span class="link-title">Testimoni</span>
+        <span class="link-arrow">▶</span>
+      </a>
+    </div>
+
+    <div class="section-label">▸ Trade</div>
+    <div class="links">
+      <a href="#" class="link-btn">
+        <span class="link-icon">W</span>
+        <span class="link-title">WhatsApp Business</span>
+        <span class="link-arrow">▶</span>
+      </a>
+    </div>
+
+    <div class="footer">[ POWERED BY SEIKOULINK ]</div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SEIKOUVERSE / KONKRET</title>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --paper:#e8e6e1;
+      --concrete:#9a9893;
+      --ink:#0a0a0a;
+      --void:#000000;
+      --signal:#ff2b00;
+      --hl:#fffd55;
+    }
+    body{
+      font-family:'Space Mono',monospace;
+      background:var(--paper);
+      background-image:
+        linear-gradient(0deg, rgba(0,0,0,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px);
+      background-size:20px 20px;
+      color:var(--ink);
+      min-height:100vh;
+      padding:0;
+      font-size:14px;
+    }
+    .top-bar{
+      background:var(--void);
+      color:var(--paper);
+      padding:0.5rem 1.5rem;
+      font-family:'Space Mono',monospace;
+      font-size:0.7rem;
+      letter-spacing:0.15em;
+      text-transform:uppercase;
+      display:flex;
+      justify-content:space-between;
+    }
+    .top-bar .signal{color:var(--signal);font-weight:700}
+    .frame{
+      max-width:540px;
+      margin:0 auto;
+      padding:2rem 1.5rem 4rem;
+      position:relative;
+    }
+    .header{
+      border:3px solid var(--ink);
+      background:var(--paper);
+      padding:0;
+      margin-bottom:1.5rem;
+      position:relative;
+    }
+    .header-meta{
+      border-bottom:3px solid var(--ink);
+      padding:0.5rem 1rem;
+      display:flex;
+      justify-content:space-between;
+      font-size:0.65rem;
+      letter-spacing:0.2em;
+      text-transform:uppercase;
+      background:var(--ink);
+      color:var(--paper);
+    }
+    .header-meta .red{color:var(--signal)}
+    .header-content{
+      padding:1.5rem;
+      display:grid;
+      grid-template-columns:80px 1fr;
+      gap:1.25rem;
+      align-items:start;
+    }
+    .av{
+      width:80px;
+      height:80px;
+      background:var(--ink);
+      color:var(--signal);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-family:'Archivo Black',sans-serif;
+      font-size:3rem;
+      line-height:1;
+      border:3px solid var(--ink);
+    }
+    .name{
+      font-family:'Archivo Black',sans-serif;
+      font-size:clamp(2rem, 6vw, 2.75rem);
+      letter-spacing:-0.04em;
+      line-height:0.9;
+      text-transform:uppercase;
+      margin-bottom:0.25rem;
+    }
+    .name span{
+      background:var(--hl);
+      padding:0 0.2rem;
+    }
+    .handle{
+      font-family:'Space Mono',monospace;
+      font-size:0.75rem;
+      letter-spacing:0.05em;
+      color:var(--ink);
+      opacity:0.6;
+      margin-bottom:0.5rem;
+    }
+    .bio-line{
+      border-top:1px solid var(--ink);
+      padding-top:0.75rem;
+      font-family:'Inter',sans-serif;
+      font-size:0.85rem;
+      line-height:1.5;
+      grid-column:1 / -1;
+    }
+    .stats{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      border-top:3px solid var(--ink);
+      background:var(--paper);
+    }
+    .stat{
+      padding:0.75rem 1rem;
+      border-right:1px solid var(--ink);
+      text-align:left;
+    }
+    .stat:last-child{border-right:none}
+    .stat-num{
+      font-family:'Archivo Black',sans-serif;
+      font-size:1.6rem;
+      line-height:1;
+      letter-spacing:-0.03em;
+    }
+    .stat-lbl{
+      font-family:'Space Mono',monospace;
+      font-size:0.6rem;
+      letter-spacing:0.15em;
+      text-transform:uppercase;
+      color:var(--ink);
+      opacity:0.6;
+      margin-top:0.2rem;
+    }
+    .section-tag{
+      display:inline-block;
+      background:var(--ink);
+      color:var(--paper);
+      font-family:'Archivo Black',sans-serif;
+      font-size:0.7rem;
+      letter-spacing:0.15em;
+      padding:0.35rem 0.75rem;
+      text-transform:uppercase;
+      margin:1.5rem 0 0;
+    }
+    .section-tag.sig{background:var(--signal)}
+    .links{
+      border:3px solid var(--ink);
+      background:var(--paper);
+      margin-top:0;
+    }
+    .link-btn{
+      display:grid;
+      grid-template-columns:60px 1fr 90px;
+      align-items:stretch;
+      text-decoration:none;
+      color:var(--ink);
+      border-bottom:1px solid var(--ink);
+      transition:background .15s;
+      position:relative;
+    }
+    .link-btn:last-child{border-bottom:none}
+    .link-btn:hover{background:var(--ink);color:var(--paper)}
+    .link-btn:hover .link-num{background:var(--signal);color:var(--ink)}
+    .link-num{
+      background:var(--ink);
+      color:var(--paper);
+      font-family:'Archivo Black',sans-serif;
+      font-size:1.1rem;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      transition:background .15s;
+    }
+    .link-content{
+      padding:0.75rem 1rem;
+      display:flex;
+      flex-direction:column;
+      gap:0.1rem;
+      justify-content:center;
+    }
+    .link-title{
+      font-family:'Inter',sans-serif;
+      font-weight:700;
+      font-size:0.95rem;
+      letter-spacing:-0.01em;
+    }
+    .link-meta{
+      font-family:'Space Mono',monospace;
+      font-size:0.65rem;
+      letter-spacing:0.1em;
+      opacity:0.5;
+      text-transform:uppercase;
+    }
+    .link-action{
+      border-left:1px solid var(--ink);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-family:'Space Mono',monospace;
+      font-size:0.7rem;
+      letter-spacing:0.15em;
+      text-transform:uppercase;
+    }
+    .link-btn:hover .link-action{border-color:var(--paper)}
+    .footer-bar{
+      margin-top:2rem;
+      border-top:3px solid var(--ink);
+      padding-top:1rem;
+      display:flex;
+      justify-content:space-between;
+      font-family:'Space Mono',monospace;
+      font-size:0.65rem;
+      letter-spacing:0.15em;
+      text-transform:uppercase;
+      color:var(--ink);
+    }
+    .footer-bar .signal{color:var(--signal);font-weight:700}
+    @media(max-width:480px){
+      .link-btn{grid-template-columns:48px 1fr 60px}
+      .link-num{font-size:0.9rem}
+      .link-action{font-size:0.6rem}
+    }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <span>SEIKOUVERSE / V.07</span>
+    <span class="signal">● LIVE</span>
+    <span>SK-LINK</span>
+  </div>
+
+  <div class="frame">
+    <div class="header">
+      <div class="header-meta">
+        <span>FILE №<span class="red">042</span></span>
+        <span>2026-05-17</span>
+        <span>UTC+07</span>
+      </div>
+      <div class="header-content">
+        <div class="av">S</div>
+        <div>
+          <h1 class="name"><span>SEIKOU</span><br>VERSE</h1>
+          <div class="handle">@seikouverse / web.craftsman</div>
+        </div>
+        <p class="bio-line">Open Jasa Web Bisnis / UMKM dan Web Joki — built raw, served direct.</p>
+      </div>
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-num">42</div>
+          <div class="stat-lbl">Projects</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">99%</div>
+          <div class="stat-lbl">On Time</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">5★</div>
+          <div class="stat-lbl">Rated</div>
+        </div>
+      </div>
+    </div>
+
+    <span class="section-tag sig">/ SERVICES</span>
+    <div class="links">
+      <a href="#" class="link-btn">
+        <div class="link-num">01</div>
+        <div class="link-content">
+          <div class="link-title">Web untuk Bisnis dan UMKM</div>
+          <div class="link-meta">SERVICE</div>
+        </div>
+        <div class="link-action">OPEN →</div>
+      </a>
+      <a href="#" class="link-btn">
+        <div class="link-num">02</div>
+        <div class="link-content">
+          <div class="link-title">Portofolio</div>
+          <div class="link-meta">ARCHIVE</div>
+        </div>
+        <div class="link-action">OPEN →</div>
+      </a>
+    </div>
+
+    <span class="section-tag">/ SOCIAL</span>
+    <div class="links">
+      <a href="#" class="link-btn">
+        <div class="link-num">03</div>
+        <div class="link-content">
+          <div class="link-title">Instagram</div>
+          <div class="link-meta">@seikouverse</div>
+        </div>
+        <div class="link-action">OPEN →</div>
+      </a>
+      <a href="#" class="link-btn">
+        <div class="link-num">04</div>
+        <div class="link-content">
+          <div class="link-title">Akun Joki X</div>
+          <div class="link-meta">TWITTER</div>
+        </div>
+        <div class="link-action">OPEN →</div>
+      </a>
+      <a href="#" class="link-btn">
+        <div class="link-num">05</div>
+        <div class="link-content">
+          <div class="link-title">Testimoni</div>
+          <div class="link-meta">REVIEWS</div>
+        </div>
+        <div class="link-action">OPEN →</div>
+      </a>
+    </div>
+
+    <span class="section-tag">/ CONTACT</span>
+    <div class="links">
+      <a href="#" class="link-btn">
+        <div class="link-num">06</div>
+        <div class="link-content">
+          <div class="link-title">WhatsApp Business</div>
+          <div class="link-meta">DIRECT LINE</div>
+        </div>
+        <div class="link-action">OPEN →</div>
+      </a>
+    </div>
+
+    <div class="footer-bar">
+      <span>END / OF / FILE</span>
+      <span class="signal">● POWERED BY SEIKOULINK</span>
+    </div>
+  </div>
+</body>
+</html>

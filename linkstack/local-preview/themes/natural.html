@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>seikouverse — botanical</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --bg:#f5f1ea;
+      --bg-2:#ebe4d4;
+      --leaf:#3d5c3a;
+      --leaf-soft:#7a9272;
+      --terra:#b8624c;
+      --ink:#2a2620;
+      --soft:#7a716a;
+      --line:#d6cdbb;
+    }
+    body{
+      font-family:'Inter',sans-serif;
+      background:var(--bg);
+      color:var(--ink);
+      min-height:100vh;
+      padding:2rem 1rem;
+      position:relative;
+      overflow-x:hidden;
+    }
+    body::before{
+      content:'';
+      position:fixed;
+      top:-100px;
+      right:-100px;
+      width:400px;
+      height:400px;
+      background-image:
+        radial-gradient(ellipse at 30% 30%, rgba(122,146,114,0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 60% 70%, rgba(184,98,76,0.1) 0%, transparent 50%);
+      pointer-events:none;
+      z-index:0;
+    }
+    body::after{
+      content:'';
+      position:fixed;
+      bottom:-200px;
+      left:-100px;
+      width:500px;
+      height:500px;
+      background-image:radial-gradient(circle, rgba(61,92,58,0.08) 0%, transparent 60%);
+      pointer-events:none;
+      z-index:0;
+    }
+    .leaf-svg{
+      position:fixed;
+      pointer-events:none;
+      z-index:0;
+      opacity:0.4;
+    }
+    .leaf-1{top:5%;left:3%;width:80px;animation:sway 6s ease-in-out infinite}
+    .leaf-2{top:30%;right:5%;width:60px;animation:sway 8s ease-in-out infinite reverse}
+    .leaf-3{bottom:10%;right:8%;width:100px;animation:sway 7s ease-in-out infinite}
+    @keyframes sway{
+      0%,100%{transform:rotate(-3deg)}
+      50%{transform:rotate(3deg)}
+    }
+    .container{
+      max-width:480px;
+      margin:0 auto;
+      position:relative;
+      z-index:2;
+    }
+    .date{
+      font-family:'Fraunces',serif;
+      font-style:italic;
+      font-size:0.85rem;
+      color:var(--soft);
+      text-align:center;
+      margin-bottom:1rem;
+      letter-spacing:0.05em;
+    }
+    .date::before, .date::after{
+      content:'·';
+      margin:0 0.5rem;
+      color:var(--terra);
+    }
+    .header{
+      text-align:center;
+      margin-bottom:2.5rem;
+    }
+    .ornament{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:0.5rem;
+      margin-bottom:1rem;
+      color:var(--leaf);
+    }
+    .ornament svg{
+      width:16px;
+      height:16px;
+    }
+    .ornament-line{
+      width:60px;
+      height:1px;
+      background:var(--leaf);
+      opacity:0.5;
+    }
+    .name{
+      font-family:'Fraunces',serif;
+      font-weight:300;
+      font-size:clamp(2.75rem, 8vw, 4rem);
+      letter-spacing:-0.02em;
+      line-height:1;
+      margin-bottom:0.5rem;
+    }
+    .name em{
+      font-style:italic;
+      color:var(--leaf);
+      font-weight:400;
+    }
+    .tagline{
+      font-family:'Fraunces',serif;
+      font-style:italic;
+      font-size:1.05rem;
+      color:var(--soft);
+      letter-spacing:0.02em;
+      margin-bottom:1.5rem;
+    }
+    .avatar{
+      width:100px;
+      height:100px;
+      margin:0 auto 1.25rem;
+      background:linear-gradient(135deg, var(--leaf-soft) 0%, var(--leaf) 100%);
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-family:'Fraunces',serif;
+      font-size:2.5rem;
+      color:var(--bg);
+      font-weight:300;
+      position:relative;
+    }
+    .avatar::before{
+      content:'';
+      position:absolute;
+      inset:-6px;
+      border:1px dashed var(--leaf);
+      border-radius:50%;
+      opacity:0.4;
+    }
+    .bio{
+      font-family:'Fraunces',serif;
+      font-size:1rem;
+      line-height:1.6;
+      color:var(--ink);
+      max-width:340px;
+      margin:0 auto;
+      font-weight:400;
+    }
+    .section{
+      margin-bottom:2rem;
+    }
+    .section-title{
+      font-family:'Fraunces',serif;
+      font-style:italic;
+      font-weight:600;
+      font-size:1.3rem;
+      color:var(--leaf);
+      margin-bottom:0.875rem;
+      display:flex;
+      align-items:center;
+      gap:0.75rem;
+    }
+    .section-title::after{
+      content:'';
+      flex:1;
+      height:1px;
+      background:linear-gradient(90deg, var(--leaf) 0%, transparent 100%);
+      opacity:0.4;
+    }
+    .section-title svg{
+      width:20px;
+      height:20px;
+      color:var(--terra);
+    }
+    .links{
+      display:flex;
+      flex-direction:column;
+      gap:0.625rem;
+    }
+    .link-btn{
+      display:flex;
+      align-items:center;
+      gap:1rem;
+      padding:1rem 1.25rem;
+      background:rgba(255,255,255,0.6);
+      backdrop-filter:blur(10px);
+      border:1px solid var(--line);
+      border-radius:18px;
+      text-decoration:none;
+      color:var(--ink);
+      font-family:'Inter',sans-serif;
+      font-size:0.95rem;
+      font-weight:500;
+      transition:all .3s ease;
+      position:relative;
+    }
+    .link-btn:hover{
+      background:#fff;
+      border-color:var(--leaf);
+      transform:translateX(4px);
+      box-shadow:0 4px 16px rgba(61,92,58,0.1);
+    }
+    .link-icon{
+      width:32px;
+      height:32px;
+      background:var(--bg-2);
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex-shrink:0;
+      color:var(--leaf);
+    }
+    .link-icon svg{width:16px;height:16px}
+    .link-text{flex:1;display:flex;flex-direction:column}
+    .link-title{
+      font-family:'Fraunces',serif;
+      font-size:1.1rem;
+      font-weight:600;
+      letter-spacing:-0.005em;
+    }
+    .link-sub{
+      font-size:0.75rem;
+      color:var(--soft);
+      margin-top:0.1rem;
+    }
+    .link-arrow{
+      font-family:'Fraunces',serif;
+      font-style:italic;
+      color:var(--terra);
+      font-size:1.2rem;
+    }
+    .footer{
+      margin-top:3rem;
+      text-align:center;
+      font-family:'Fraunces',serif;
+      font-style:italic;
+      font-size:0.85rem;
+      color:var(--soft);
+    }
+  </style>
+</head>
+<body>
+  <svg class="leaf-svg leaf-1" viewBox="0 0 100 100" fill="none">
+    <path d="M50 10 Q70 30, 60 60 Q40 80, 30 60 Q40 40, 50 10" stroke="#3d5c3a" stroke-width="1.5" fill="rgba(61,92,58,0.1)"/>
+    <path d="M50 15 L50 55" stroke="#3d5c3a" stroke-width="1"/>
+  </svg>
+  <svg class="leaf-svg leaf-2" viewBox="0 0 100 100" fill="none">
+    <path d="M50 20 Q75 35, 65 65 Q35 75, 25 50 Q35 30, 50 20" stroke="#7a9272" stroke-width="1.5" fill="rgba(122,146,114,0.1)"/>
+  </svg>
+  <svg class="leaf-svg leaf-3" viewBox="0 0 100 100" fill="none">
+    <path d="M50 5 Q80 30, 70 70 Q30 80, 25 55 Q30 30, 50 5" stroke="#3d5c3a" stroke-width="1.5" fill="rgba(61,92,58,0.08)"/>
+  </svg>
+
+  <main class="container">
+    <p class="date">17 Mei 2026</p>
+
+    <header class="header">
+      <div class="ornament">
+        <span class="ornament-line"></span>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 L13 10 L21 11 L13 12 L12 22 L11 12 L3 11 L11 10 Z"/></svg>
+        <span class="ornament-line"></span>
+      </div>
+      <div class="avatar">S</div>
+      <h1 class="name">Seikou<em>verse</em></h1>
+      <p class="tagline">— grown with care, served with love —</p>
+      <p class="bio">Open Jasa Web Bisnis / UMKM dan Web Joki. Building digital gardens, one page at a time.</p>
+    </header>
+
+    <section class="section">
+      <h2 class="section-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 L15 9 L22 12 L15 15 L12 22 L9 15 L2 12 L9 9 Z"/></svg>
+        layanan
+      </h2>
+      <div class="links">
+        <a href="#" class="link-btn">
+          <span class="link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/></svg></span>
+          <span class="link-text">
+            <span class="link-title">Web untuk Bisnis & UMKM</span>
+            <span class="link-sub">Custom website, dirawat seperti tanaman</span>
+          </span>
+          <span class="link-arrow">→</span>
+        </a>
+        <a href="#" class="link-btn">
+          <span class="link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></span>
+          <span class="link-text">
+            <span class="link-title">Portofolio</span>
+            <span class="link-sub">Selected works</span>
+          </span>
+          <span class="link-arrow">→</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg>
+        sosial
+      </h2>
+      <div class="links">
+        <a href="#" class="link-btn">
+          <span class="link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r="1.5" fill="currentColor"/></svg></span>
+          <span class="link-text">
+            <span class="link-title">Instagram</span>
+            <span class="link-sub">@seikouverse</span>
+          </span>
+          <span class="link-arrow">→</span>
+        </a>
+        <a href="#" class="link-btn">
+          <span class="link-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></span>
+          <span class="link-text">
+            <span class="link-title">Akun Joki X</span>
+            <span class="link-sub">Twitter</span>
+          </span>
+          <span class="link-arrow">→</span>
+        </a>
+        <a href="#" class="link-btn">
+          <span class="link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 L15 9 L22 9 L17 14 L19 22 L12 18 L5 22 L7 14 L2 9 L9 9 Z"/></svg></span>
+          <span class="link-text">
+            <span class="link-title">Testimoni</span>
+            <span class="link-sub">Kata-kata dari klien</span>
+          </span>
+          <span class="link-arrow">→</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        terhubung
+      </h2>
+      <div class="links">
+        <a href="#" class="link-btn">
+          <span class="link-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg></span>
+          <span class="link-text">
+            <span class="link-title">WhatsApp Business</span>
+            <span class="link-sub">Untuk konsultasi</span>
+          </span>
+          <span class="link-arrow">→</span>
+        </a>
+      </div>
+    </section>
+
+    <div class="footer">— planted by SeikouLink —</div>
+  </main>
+</body>
+</html>

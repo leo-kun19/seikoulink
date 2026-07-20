@@ -1,0 +1,25 @@
+
+# safe publish
+node_modules/
+vendor/
+dist/
+build/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.sql
+__pycache__/
+*.pyc
+.venv/
+venv/
+firewall-events*.json
+linkstack/.env
+linkstack/vendor/
+linkstack/node_modules/
+**/.env
+linkstack/node_modules/
+linkstack/uploads/
+linkstack/data/
+linkstack/.env
